@@ -4,8 +4,7 @@
 1. ruby ('ruby -v' to check)
 2. rake ('gem install rake' to install)
 3. terraform (use appropriate package manager to install)
-4. aws-cli (use appropriate package manager to install)
-5. chef-run (a part of chef-workstation package, use appropriate package manager to install)
+4. chef-run (a part of chef-workstation package, use appropriate package manager to install)
 
 ##### 1. Clone repo:
 ```
