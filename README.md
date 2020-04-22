@@ -27,7 +27,7 @@ $ "/Users/yaa/.ssh/id_rsa.pub"   # <- works for me; fix key path!!!!!!
 ```
 ##### 5. List existing tasks:
 ```
-$ rake -T                    # list all existing tasks
+$ rake -T
 >>
 rake chef:converge           # converge all nodes
 rake infrastructure:create   # create infrastructure
