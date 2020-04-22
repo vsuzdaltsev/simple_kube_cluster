@@ -14,7 +14,7 @@ $ cd simple_kube_cluster
 ```
 ##### 2. Install mandatory tools:
 ```
-$ install ruby, rake, terraform
+$ install ruby, rake, terraform, chef-workstation
 ```
 ##### 3. Set proper environment variables and export them:
 ```
