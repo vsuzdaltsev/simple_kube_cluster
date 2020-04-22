@@ -32,6 +32,13 @@ namespace :notify do
   end
 end
 
+namespace :running_pods do
+  desc 'kill running pods within cluster'
+  task :kill do
+    chef_run(node: 'master', recipe: 'kill_pods')
+  end
+end
+
 namespace :chef do
   task :run_on_master_default do
     chef_run(node: 'master', recipe: 'default')

@@ -21,21 +21,37 @@ $ install ruby, rake, terraform, chef-workstation
 $ vim aws_creds_example.txt      # fix api key values!!!!!!
 $ source aws_creds_example.txt
 ```
-##### 5. Set proper value for public key path within variables.tf (line 23) file:
+##### 4. Set proper value for public key path within variables.tf (line 23) file:
 ```
 $ "/Users/yaa/.ssh/id_rsa.pub"   # <- works for me; fix key path!!!!!! 
 ```
-##### 4. Run infrastructure creation:
+##### 5. List existing tasks:
+```
+$ rake -T                        # list all existing tasks
+>>
+rake chef:converge           # converge all nodes
+rake infrastructure:create   # create infrastructure
+rake infrastructure:destroy  # destroy infrastructure
+rake running_pods:kill       # kill running pods within cluster
+```
+##### 6. Run infrastructure creation:
 ```
 $ rake infrastructure:create
 ```
-##### 5. Run configuration:
+##### 7. Run configuration:
 ```
 $ rake chef:converge
 ```
-##### 6. Destroy the created infrastructure:
+##### 8. Open app in browser (see converge output for url)
+##### 9. Enter some input and check the result
+##### 10. Kill running pods:
 ```
-$ rake infrastructure:create
+rake running_pods:kill
+```
+##### 11. Go to browser, wait a bit and check if app running and presenting persistent data
+##### 12. Destroy the created infrastructure:
+```
+$ rake infrastructure:destroy
 ```
 
 This will do the following:
