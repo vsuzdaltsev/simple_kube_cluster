@@ -21,9 +21,9 @@ $ install ruby, rake, terraform, chef-workstation
 $ vim aws_creds_example.txt      # fix api key values!!!!!!
 $ source aws_creds_example.txt
 ```
-##### 5. Set proper value for public key within variables.tf file:
+##### 5. Set proper value for public key path within variables.tf (line 23) file:
 ```
-$ "/Users/yaa/.ssh/id_rsa.pub" # !!!!!! <- works for me
+$ "/Users/yaa/.ssh/id_rsa.pub"   # <- works for me; fix key path!!!!!! 
 ```
 ##### 4. Run infrastructure creation:
 ```
