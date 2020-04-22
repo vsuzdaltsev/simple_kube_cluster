@@ -1,0 +1,96 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: web-api-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: web-api
+          servicePort: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: backend
+      service: web-api
+  template:
+    metadata:
+      labels:
+        type: backend
+        service: web-api
+        language: ruby
+    spec:
+      containers:
+      - name: api
+        image: vsuzdaltsev/test-app
+        env:
+        - name: APP_DIR
+          value: '/opt/app'
+        - name: RUBY_VER
+          value: '2.5.0'
+        - name: UNICORN_PORT
+          value: '80'
+        - name: UNICORN_HOST
+          value: '0.0.0.0'
+        - name: UNICORN_TIMEOUT
+          value: '60'
+        - name: UNICORN_WORKERS
+          value: '2'
+        - name: UNICORN_CONTAINER_NAME
+          value: 'unicorn'
+        - name: CONTAINER_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        livenessProbe:
+          httpGet:
+            path: /api/v1/get
+            port: 80
+        command: ["/usr/local/bundle/bin/unicorn"]
+        args: ["-c", "/opt/app/unicorn.conf"]
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-api
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  externalIPs:
+  - <%= @worker_one %>
+  selector:
+    type: backend
+    service: web-api
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: persistent
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
