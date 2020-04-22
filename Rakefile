@@ -26,6 +26,12 @@ namespace :infrastructure do
   end
 end
 
+namespace :notify do
+  task :report do
+    puts ">> open http://#{ip('worker_one')} in you favourite browser"
+  end
+end
+
 namespace :chef do
   task :run_on_master_default do
     chef_run(node: 'master', recipe: 'default')
@@ -60,5 +66,6 @@ namespace :chef do
     Rake::Task['chef:run_on_worker_one_custom'].execute
     Rake::Task['chef:cleanup_s3'].execute
     Rake::Task['chef:deployment'].execute
+    Rake::Task['notify:report'].execute
   end
 end
