@@ -42,6 +42,6 @@ This will do the following:
 - create infrastructure described within terraform files (2 ec2 instances, vpc, some networking stuff)
 - configure cluster - master/worker
 - deploy test application (https://github.com/vsuzdaltsev/test_web_app)
+- notify user about the application uri
 - destroy infrastructure
-
 
