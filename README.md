@@ -27,7 +27,7 @@ $ "/Users/yaa/.ssh/id_rsa.pub"   # <- works for me; fix key path!!!!!!
 ```
 ##### 5. List existing tasks:
 ```
-$ rake -T                        # list all existing tasks
+$ rake -T                    # list all existing tasks
 >>
 rake chef:converge           # converge all nodes
 rake infrastructure:create   # create infrastructure
@@ -46,7 +46,7 @@ $ rake chef:converge
 ##### 9. Enter some input and check the result
 ##### 10. Kill running pods:
 ```
-rake running_pods:kill
+$ rake running_pods:kill
 ```
 ##### 11. Go to browser, wait a bit and check if app running and presenting persistent data
 ##### 12. Destroy the created infrastructure:
