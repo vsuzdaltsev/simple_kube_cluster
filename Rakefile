@@ -40,7 +40,7 @@ namespace :running_pods do
   desc 'kill running pods within cluster'
   task :kill do
     chef_run(node: 'master', recipe: 'kill_pods')
-    puts ">> Wait a bit while kubernetes restores the killed pods. Usually it takes up to 10 seconds"
+    puts '>> Wait a bit while kubernetes restores the killed pods. Usually it takes up to 10 seconds'
   end
 end
 
@@ -71,10 +71,24 @@ namespace :chef do
 
   desc 'converge all nodes'
   task :converge do
-    puts '>> Performing chef-run'
-    Rake::Task['chef:run_on_master_default'].execute
+    default_recipe_tasks = [
+      Rake::Task['chef:run_on_master_default'],
+      Rake::Task['chef:run_on_worker_one_default']
+    ]
+
+    default_recipe_apply = lambda do |tasks|
+      tasks.each_with_object([]) do |task, threads|
+        threads << Thread.new(task) do
+          task.execute
+        end
+      end.each(&:join)
+    end
+
+    puts '>> Performing chef-run concurrently'
+
+    default_recipe_apply.call(default_recipe_tasks)
+
     Rake::Task['chef:run_on_master_custom'].execute
-    Rake::Task['chef:run_on_worker_one_default'].execute
     Rake::Task['chef:run_on_worker_one_custom'].execute
     Rake::Task['chef:cleanup_s3'].execute
     Rake::Task['chef:deployment'].execute

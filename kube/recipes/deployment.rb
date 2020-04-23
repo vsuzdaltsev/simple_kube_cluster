@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+helm_install_postgres = node['master']['helm_install_postgres']
+
 template '/home/ubuntu/web-api.yml' do
   source 'web-api.yml.erb'
   owner  'ubuntu'
@@ -28,7 +30,7 @@ execute 'helm repo update' do
 end
 
 execute 'install db' do
-  command 'sudo -u ubuntu helm install postgres bitnami/postgresql --set image.repository=postgres --set image.tag=10.6 --set persistence.size=512M,persistence.storageClass=manual,persistence.mountPath=/mnt/data --set postgresqlPassword=yaa,postgresqlDatabase=yaa,postgresqlDataDir=/mnt/data > db_install.log'
+  command "sudo -u ubuntu #{helm_install_postgres}"
 
   not_if { system('kubectl get pods | grep postgres | grep Running') }
 end
