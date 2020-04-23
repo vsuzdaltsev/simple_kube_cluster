@@ -31,7 +31,7 @@ namespace :infrastructure do
 end
 
 namespace :notify do
-  task :report do
+  task :where_app_endpoint do
     puts ">> open http://#{ip('worker_one')} in you favourite browser"
   end
 end
@@ -92,6 +92,6 @@ namespace :chef do
     Rake::Task['chef:run_on_worker_one_custom'].execute
     Rake::Task['chef:cleanup_s3'].execute
     Rake::Task['chef:deployment'].execute
-    Rake::Task['notify:report'].execute
+    Rake::Task['notify:where_app_endpoint'].execute
   end
 end
