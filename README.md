@@ -50,7 +50,7 @@ rake chef:run_on_worker_one_custom   # <- Configure worker node. Join to existin
 rake chef:run_on_worker_one_default  # <- Configure worker node. Install appropriate tools
 rake infrastructure:create           # create infrastructure <- Provision resources within the aws
 rake infrastructure:destroy          # destroy infrastructure <- Destroy resources within the aws
-rake notify:report                   # <- Notify deployed app uri in the cloud
+rake notify:where_app_endpoint       # <- Notify deployed app uri in the cloud
 rake running_pods:kill               # kill running pods within cluster
 ```
 ##### 7. Run infrastructure creation:
