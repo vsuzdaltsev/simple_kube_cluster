@@ -76,7 +76,7 @@ namespace :chef do
       Rake::Task['chef:run_on_worker_one_default']
     ]
 
-    default_recipe_apply = lambda do |tasks|
+    recipe_apply = lambda do |tasks|
       tasks.each_with_object([]) do |task, threads|
         threads << Thread.new(task) do
           task.execute
@@ -86,7 +86,7 @@ namespace :chef do
 
     puts '>> Performing chef-run concurrently'
 
-    default_recipe_apply.call(default_recipe_tasks)
+    recipe_apply.call(default_recipe_tasks)
 
     Rake::Task['chef:run_on_master_custom'].execute
     Rake::Task['chef:run_on_worker_one_custom'].execute
