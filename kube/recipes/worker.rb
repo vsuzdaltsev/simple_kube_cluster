@@ -7,9 +7,10 @@
 # Copyright:: 2020, The Authors, All Rights Reserved.
 #
 
-init_log     = node['master']['init_log']
-bucket       = node['s3_bucket']
-kubectl_conf = node['kubectl']['config']['path']
+init_log        = node['master']['init_log']
+bucket          = node['s3_bucket']
+kubectl_conf    = node['kubectl']['config']['path']
+persistent_data = node['kubernetes']['persistent_volume_data']
 
 directory '/home/ubuntu/.kube' do
   owner 'ubuntu'
@@ -35,12 +36,12 @@ execute 'join worker to cluster' do
   not_if { File.exist?('/etc/kubernetes/kubelet.conf') }
 end
 
-directory '/mnt/data' do
+directory persistent_data do
   owner 'ubuntu'
   group 'ubuntu'
   mode  '0755'
 end
 
 execute 'chown db data directory' do
-  command 'sudo chown -R 1001:1001 /mnt/data/'
+  command "sudo chown -R 1001:1001 #{persistent_data}"
 end
