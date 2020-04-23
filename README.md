@@ -24,7 +24,11 @@ $ source aws_creds_example.txt
 ```
 "/Users/yaa/.ssh/id_rsa.pub"   # <- works for me; fix key path!!!!!!
 ```
-##### 5. Explore existing tasks:
+##### 5. Set proper value for private key path within Rakefile (line 2) file:
+```
+private_key = '~/.ssh/id_rsa'   # <- works for me; fix key path!!!!!!
+```
+##### 6. Explore existing tasks:
 ```
 $ rake -T                    # automated cluster/application deployment
 >>
@@ -48,22 +52,22 @@ rake infrastructure:destroy          # destroy infrastructure <- Destroy resourc
 rake notify:report                   # <- Notify deployed app uri in the cloud
 rake running_pods:kill               # kill running pods within cluster
 ```
-##### 6. Run infrastructure creation:
+##### 7. Run infrastructure creation:
 ```
 $ rake infrastructure:create
 ```
-##### 7. Run configuration:
+##### 8. Run configuration:
 ```
 $ rake chef:converge
 ```
-##### 8. Open app in browser (see converge output for url)
-##### 9. Enter some input and check the result
-##### 10. Kill all running pods - application & db:
+##### 9. Open app in browser (see converge output for url)
+##### 10. Enter some input and check the result
+##### 11. Kill all running pods - application & db:
 ```
 $ rake running_pods:kill
 ```
-##### 11. Go to browser. Wait a bit wlile kubernetes recovering pods. Refresh the page to check if app is running and presenting persistent data
-##### 12. Destroy the created infrastructure:
+##### 12. Go to browser. Wait a bit wlile kubernetes recovering pods. Refresh the page to check if app is running and presenting persistent data
+##### 13. Destroy the created infrastructure:
 ```
 $ rake infrastructure:destroy
 ```

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+private_key = '~/.ssh/id_rsa'
+
 def ip(node)
   require 'json'
 
@@ -8,7 +10,7 @@ end
 
 def chef_run(node:, recipe:, cookbook: 'kube')
   puts ">> Performing chef-run/#{cookbook}/#{recipe} on #{node} node"
-  sh("chef-run --identity ~/.ssh/id_rsa ssh://ubuntu@#{ip(node)} kube/recipes/#{recipe}.rb")
+  sh("chef-run --identity #{private_key} ssh://ubuntu@#{ip(node)} kube/recipes/#{recipe}.rb")
 end
 
 namespace :infrastructure do
