@@ -40,6 +40,7 @@ namespace :running_pods do
   desc 'kill running pods within cluster'
   task :kill do
     chef_run(node: 'master', recipe: 'kill_pods')
+    puts ">> Wait a bit while kubernetes restores the killed pods. Usually it takes up to 10 seconds"
   end
 end
 
