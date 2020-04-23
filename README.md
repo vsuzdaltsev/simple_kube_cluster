@@ -62,7 +62,7 @@ $ rake chef:converge
 ```
 $ rake running_pods:kill
 ```
-##### 11. Go to browser, wait a bit and check if app running and presenting persistent data
+##### 11. Go to browser. Wait a bit wlile kubernetes recovering pods. Refresh the page to check if app is running and presenting persistent data
 ##### 12. Destroy the created infrastructure:
 ```
 $ rake infrastructure:destroy
