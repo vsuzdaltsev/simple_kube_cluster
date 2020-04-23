@@ -5,7 +5,7 @@
 2. rake ('gem install rake' to install)
 3. terraform (use appropriate package manager to install)
 4. chef-run (a part of chef-workstation package, use appropriate package manager to install)
-5. you have to provide key pair which will be use to configure VMs (see step 3 and step 4)
+5. you have to provide ssh key pair which will be used to access cloud VMs (see step 3 and step 4)
 
 ##### 1. Clone repo:
 ```
@@ -25,7 +25,7 @@ $ source aws_creds_example.txt
 ```
 "/Users/yaa/.ssh/id_rsa.pub"   # <- works for me; fix key path!!!!!!
 ```
-##### 5. Set proper value for private key path within Rakefile (line 3):
+##### 5. Set proper value for private key path within Rakefile (line 6):
 ```
 private_key = '~/.ssh/id_rsa'   # <- works for me; fix key path!!!!!!
 ```

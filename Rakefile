@@ -15,7 +15,7 @@ def chef_run(node:, recipe:, cookbook: 'kube')
   sh("chef-run --identity #{private_key} ssh://ubuntu@#{ip(node)} kube/recipes/#{recipe}.rb")
 end
 
-def apply_concurrently(tasks:)
+def run_concurrently(tasks:)
   puts '>> Performing chef-run concurrently'
   tasks.each_with_object([]) do |task, threads|
     threads << Thread.new(task) do
@@ -86,12 +86,18 @@ namespace :chef do
       Rake::Task['chef:run_on_worker_one_default']
     ]
 
-    apply_concurrently(tasks: default_recipe_tasks)
+    run_concurrently(tasks: default_recipe_tasks)
 
     Rake::Task['chef:run_on_master_custom'].execute
     Rake::Task['chef:run_on_worker_one_custom'].execute
-    Rake::Task['chef:cleanup_s3'].execute
-    Rake::Task['chef:deployment'].execute
+
+    deploy_and_clean_tasks = [
+      Rake::Task['chef:cleanup_s3'],
+      Rake::Task['chef:deployment']
+    ]
+
+    run_concurrently(tasks: deploy_and_clean_tasks)
+
     Rake::Task['notify:where_app_endpoint'].execute
   end
 end
