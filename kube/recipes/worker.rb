@@ -7,6 +7,9 @@
 # Copyright:: 2020, The Authors, All Rights Reserved.
 #
 
+init_log = node['master']['init_log']
+bucket   = node['s3_bucket']
+
 directory '/home/ubuntu/.kube' do
   owner 'ubuntu'
   group 'ubuntu'
@@ -14,20 +17,19 @@ directory '/home/ubuntu/.kube' do
 end
 
 execute 'download join token' do
-  command 'aws s3 cp s3://yaa-test/join.node.txt .'
+  command "aws s3 cp s3://#{bucket}/#{init_log} ."
 
-  only_if { `aws s3 ls s3://yaa-test/join.node.txt` }
+  only_if { system("aws s3 ls s3://#{bucket}/#{init_log}") }
 end
 
 execute 'download kubeconfig' do
-  command 'aws s3 cp s3://yaa-test/config /home/ubuntu/.kube/config; chown -R ubuntu:ubuntu /home/ubuntu/.kube'
+  command "aws s3 cp s3://#{bucket}/config /home/ubuntu/.kube/config; chown -R ubuntu:ubuntu /home/ubuntu/.kube"
 
-  only_if { `aws s3 ls s3://yaa-test/config` }
-  # not_if  { File.exist?('/home/ubuntu/.kube/config') }
+  only_if { system("aws s3 ls s3://#{bucket}/config") }
 end
 
 execute 'join worker to cluster' do
-  command 'grep "kubeadm join" -A 1 /join.node.txt > /tmp/join_command.sh; sudo bash /tmp/join_command.sh'
+  command "grep 'kubeadm join' -A 1 /#{init_log} > /tmp/join_command.sh; sudo bash /tmp/join_command.sh"
 
   not_if { File.exist?('/etc/kubernetes/kubelet.conf') }
 end

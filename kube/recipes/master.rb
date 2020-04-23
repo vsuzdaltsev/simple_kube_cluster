@@ -7,7 +7,8 @@
 # Copyright:: 2020, The Authors, All Rights Reserved.
 #
 
-init_log = 'join.node.txt'
+init_log = node['master']['init_log']
+bucket   = node['s3_bucket']
 
 directory '/home/ubuntu/.kube'
 
@@ -30,15 +31,15 @@ execute 'apply kube-flannel' do
 end
 
 execute 'upload join token' do
-  command 'aws s3 cp /join.node.txt s3://yaa-test/join.node.txt'
+  command "aws s3 cp /join.node.txt s3://#{bucket}/join.node.txt"
 
-  not_if { system('aws s3 ls yaa-test/join.node.txt') }
+  not_if { system("aws s3 ls #{bucket}/join.node.txt") }
 end
 
 execute 'upload kubeconfig' do
-  command 'aws s3 cp /home/ubuntu/.kube/config s3://yaa-test/config'
+  command "aws s3 cp /home/ubuntu/.kube/config s3://#{bucket}/config"
 
-  not_if { system('aws s3 ls yaa-test/config') }
+  not_if { system("aws s3 ls #{bucket}/config") }
 end
 
 execute 'install helm' do
@@ -52,5 +53,3 @@ execute 'install helm' do
 
   not_if { system('command -v helm') }
 end
-
-# helm install mongodb stable/mongodb --set persistence.size=512M --set persistence.storageClass=manual
