@@ -7,8 +7,6 @@ def private_key
 end
 
 def ip(node)
-  require 'json'
-
   JSON.parse(`terraform output -json`)["#{node}_public_ip"]['value']
 end
 
