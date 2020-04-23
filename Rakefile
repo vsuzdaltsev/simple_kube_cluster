@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-private_key = '~/.ssh/id_rsa'
+def private_key
+  '~/.ssh/id_rsa'
+end
 
 def ip(node)
   require 'json'

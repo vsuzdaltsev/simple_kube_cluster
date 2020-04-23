@@ -24,7 +24,7 @@ $ source aws_creds_example.txt
 ```
 "/Users/yaa/.ssh/id_rsa.pub"   # <- works for me; fix key path!!!!!!
 ```
-##### 5. Set proper value for private key path within Rakefile (line 2) file:
+##### 5. Set proper value for private key path within Rakefile (line 2):
 ```
 private_key = '~/.ssh/id_rsa'   # <- works for me; fix key path!!!!!!
 ```
