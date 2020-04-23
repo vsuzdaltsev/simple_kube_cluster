@@ -91,12 +91,8 @@ namespace :chef do
     Rake::Task['chef:run_on_master_custom'].execute
     Rake::Task['chef:run_on_worker_one_custom'].execute
 
-    deploy_and_clean_tasks = [
-      Rake::Task['chef:cleanup_s3'],
-      Rake::Task['chef:deployment']
-    ]
-
-    run_concurrently(tasks: deploy_and_clean_tasks)
+    Rake::Task['chef:cleanup_s3'].execute
+    Rake::Task['chef:deployment'].execute
 
     Rake::Task['notify:where_app_endpoint'].execute
   end
