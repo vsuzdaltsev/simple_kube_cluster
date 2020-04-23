@@ -16,6 +16,7 @@ directory '/home/ubuntu/.kube'
 
 execute 'kubeadm init' do
   command "kubeadm init --pod-network-cidr=#{pod_cidr} > #{init_log}"
+
   action :run
 
   not_if { File.exist?('/etc/kubernetes/manifests/kube-apiserver.yaml') }
@@ -23,6 +24,7 @@ end
 
 execute 'create kubeconfig' do
   command "touch #{kubectl_conf} ; cat /etc/kubernetes/admin.conf > #{kubectl_conf}"
+
   action :run
 
   not_if { File.exist?(kubectl_conf) }
