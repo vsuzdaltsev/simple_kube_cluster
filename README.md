@@ -1,11 +1,12 @@
 # Kubernetes cluster example
 
-##### PREREQUISITES. The following components should be installed to perform test demo:
+##### PREREQUISITES. The following components should be installed to perform demo:
 1. ruby ('ruby -v' to check)
 2. rake ('gem install rake' to install)
 3. terraform (use appropriate package manager to install)
 4. chef-run (a part of chef-workstation package, use appropriate package manager to install)
-5. you have to provide ssh key pair which will be used to access cloud VMs (see step 3 and step 4 and 5)
+5. jq (use appropriate package manager to install)
+6. you have to provide ssh key pair which will be used to access cloud VMs (see step 3 and step 4 and 5)
 
 ##### 1. Clone repo:
 ```
