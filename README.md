@@ -58,7 +58,7 @@ $ rake chef:converge
 ```
 ##### 8. Open app in browser (see converge output for url)
 ##### 9. Enter some input and check the result
-##### 10. Kill running pods:
+##### 10. Kill all running pods - application & db:
 ```
 $ rake running_pods:kill
 ```
