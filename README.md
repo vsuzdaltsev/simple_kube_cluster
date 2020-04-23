@@ -5,6 +5,7 @@
 2. rake ('gem install rake' to install)
 3. terraform (use appropriate package manager to install)
 4. chef-run (a part of chef-workstation package, use appropriate package manager to install)
+5. you have to provide key pair which will be use to configure VMs (see step 3 and step 4)
 
 ##### 1. Clone repo:
 ```
@@ -24,7 +25,7 @@ $ source aws_creds_example.txt
 ```
 "/Users/yaa/.ssh/id_rsa.pub"   # <- works for me; fix key path!!!!!!
 ```
-##### 5. Set proper value for private key path within Rakefile (line 2):
+##### 5. Set proper value for private key path within Rakefile (line 3):
 ```
 private_key = '~/.ssh/id_rsa'   # <- works for me; fix key path!!!!!!
 ```
@@ -71,11 +72,12 @@ $ rake running_pods:kill
 ```
 $ rake infrastructure:destroy
 ```
-
-This will do the following:
+---
+Rake tasks described above can at whole do the following:
 - create infrastructure described within terraform files (2 ec2 instances, vpc, some networking stuff)
 - configure cluster - master/worker
 - deploy test application (https://github.com/vsuzdaltsev/test_web_app)
 - notify user about the application uri
+- delete pods running on the cluster
 - destroy infrastructure
 
