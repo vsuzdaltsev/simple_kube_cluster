@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'json'
+
 def private_key
   '~/.ssh/id_rsa'
 end
@@ -13,6 +15,15 @@ end
 def chef_run(node:, recipe:, cookbook: 'kube')
   puts ">> Performing chef-run/#{cookbook}/#{recipe} on #{node} node"
   sh("chef-run --identity #{private_key} ssh://ubuntu@#{ip(node)} kube/recipes/#{recipe}.rb")
+end
+
+def apply_concurrently(tasks:)
+  puts '>> Performing chef-run concurrently'
+  tasks.each_with_object([]) do |task, threads|
+    threads << Thread.new(task) do
+      task.execute
+    end
+  end.each(&:join)
 end
 
 namespace :infrastructure do
@@ -77,17 +88,7 @@ namespace :chef do
       Rake::Task['chef:run_on_worker_one_default']
     ]
 
-    recipe_apply = lambda do |tasks|
-      tasks.each_with_object([]) do |task, threads|
-        threads << Thread.new(task) do
-          task.execute
-        end
-      end.each(&:join)
-    end
-
-    puts '>> Performing chef-run concurrently'
-
-    recipe_apply.call(default_recipe_tasks)
+    apply_concurrently(tasks: default_recipe_tasks)
 
     Rake::Task['chef:run_on_master_custom'].execute
     Rake::Task['chef:run_on_worker_one_custom'].execute
