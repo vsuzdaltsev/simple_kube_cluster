@@ -10,11 +10,12 @@
 init_log     = node['master']['init_log']
 bucket       = node['s3_bucket']
 kubectl_conf = node['kubectl']['config']['path']
+pod_cidr     = node['kubernetes']['pod_cidr']
 
 directory '/home/ubuntu/.kube'
 
 execute 'kubeadm init' do
-  command "kubeadm init --pod-network-cidr=10.244.0.0/16 > #{init_log}"
+  command "kubeadm init --pod-network-cidr=#{pod_cidr} > #{init_log}"
   action :run
 
   not_if { File.exist?('/etc/kubernetes/manifests/kube-apiserver.yaml') }
