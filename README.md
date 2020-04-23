@@ -24,7 +24,7 @@ $ source aws_creds_example.txt
 ```
 "/Users/yaa/.ssh/id_rsa.pub"   # <- works for me; fix key path!!!!!!
 ```
-##### 5. List existing tasks:
+##### 5. Explore existing tasks:
 ```
 $ rake -T                    # automated cluster/application deployment
 >>
