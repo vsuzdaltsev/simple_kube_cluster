@@ -2,13 +2,10 @@
 
 ruby_block 'kill running pods' do
   block do
-    running_pods = lambda {
-      `kubectl get pods`.split.select do |pod|
-        pod if pod.include?('postgres') || pod.include?('web-api')
+    `kubectl get pods`.split.grep(/postgres|web-api/).tap do |running_pods|
+      running_pods.each do |pod|
+        system("kubectl delete pods #{pod}")
       end
-    }
-    running_pods.call.each do |pod|
-      `kubectl delete pods #{pod}`
     end
   end
   action :run

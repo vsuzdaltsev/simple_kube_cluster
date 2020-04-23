@@ -81,3 +81,11 @@ Rake tasks described above can at whole do the following:
 - delete pods running on the cluster
 - destroy infrastructure
 
+NB: use something like the following to access nodes created with the automation tool:
+
+```
+$ ssh ubuntu@$(terraform output -json | jq '.master_one_public_ip.value' | tr -d '\"') # <- master node
+
+$ ssh ubuntu@$(terraform output -json | jq '.worker_one_public_ip.value' | tr -d '\"') # <- worker node
+```
+

@@ -41,6 +41,7 @@ namespace :running_pods do
   task :kill do
     chef_run(node: 'master', recipe: 'kill_pods')
     puts '>> Wait a bit while kubernetes restores the killed pods. Usually it takes up to 10 seconds'
+    Rake::Task['notify:where_app_endpoint'].execute
   end
 end
 
