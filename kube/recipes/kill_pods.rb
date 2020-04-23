@@ -8,5 +8,6 @@ ruby_block 'kill running pods' do
       end
     end
   end
+
   action :run
 end

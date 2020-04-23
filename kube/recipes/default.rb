@@ -57,10 +57,12 @@ end
 
 execute 'reload_docker' do
   command 'systemctl daemon-reload; systemctl restart docker'
+
   action :nothing
 end
 
 execute 'swapoff' do
   command 'swapoff -a'
-  action :run
+
+  action  :run
 end

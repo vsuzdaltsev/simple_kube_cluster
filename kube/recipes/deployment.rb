@@ -7,15 +7,15 @@ template '/home/ubuntu/web-api.yml' do
   owner  'ubuntu'
   group  'ubuntu'
   mode   '0755'
+
   action :create
 
-  variables(
-    worker_one: node['network']['interfaces']['eth0']['arp'].keys.sort[1]
-  )
+  variables(worker_one: node['network']['interfaces']['eth0']['arp'].keys.sort[1])
 end
 
 execute 'deployment' do
   command 'kubectl apply -f /home/ubuntu/web-api.yml'
+
   action :run
 end
 
