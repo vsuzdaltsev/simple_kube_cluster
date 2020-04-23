@@ -7,8 +7,9 @@
 # Copyright:: 2020, The Authors, All Rights Reserved.
 #
 
-init_log = node['master']['init_log']
-bucket   = node['s3_bucket']
+init_log     = node['master']['init_log']
+bucket       = node['s3_bucket']
+kubectl_conf = node['kubectl']['config']['path']
 
 directory '/home/ubuntu/.kube' do
   owner 'ubuntu'
@@ -23,7 +24,7 @@ execute 'download join token' do
 end
 
 execute 'download kubeconfig' do
-  command "aws s3 cp s3://#{bucket}/config /home/ubuntu/.kube/config; chown -R ubuntu:ubuntu /home/ubuntu/.kube"
+  command "aws s3 cp s3://#{bucket}/config #{kubectl_conf}; chown -R ubuntu:ubuntu /home/ubuntu/.kube"
 
   only_if { system("aws s3 ls s3://#{bucket}/config") }
 end
