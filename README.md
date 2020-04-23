@@ -38,13 +38,13 @@ $ rake -T --all                      # all tasks can be run one by one
 >>
 rake chef:cleanup_s3                 #
 rake chef:converge                   # converge all nodes
-rake chef:deployment                 # <- deploy test application
+rake chef:deployment                 # <- deploy test application (application itself & postgres)
 rake chef:run_on_master_custom       # <- Configure master node. Create and configure kubernetes cluster
 rake chef:run_on_master_default      # <- Configure master node. Install appropriate tools
 rake chef:run_on_worker_one_custom   # <- Configure worker node. Join to existing cluster
 rake chef:run_on_worker_one_default  # <- Configure worker node. Install appropriate tools
-rake infrastructure:create           # create infrastructure
-rake infrastructure:destroy          # destroy infrastructure
+rake infrastructure:create           # create infrastructure <- Provision resources within the aws
+rake infrastructure:destroy          # destroy infrastructure <- Destroy resources within the aws
 rake notify:report                   # <- Notify deployed app uri in the cloud
 rake running_pods:kill               # kill running pods within cluster
 ```

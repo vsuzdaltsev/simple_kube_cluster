@@ -28,7 +28,6 @@ execute 'helm repo update' do
 end
 
 execute 'install db' do
-  # command 'sudo -u ubuntu helm install postgres stable/ --set persistence.size=512M,persistence.storageClass=manual,persistence.mountPath=/mnt/data, > db_install.log'
   command 'sudo -u ubuntu helm install postgres bitnami/postgresql --set image.repository=postgres --set image.tag=10.6 --set persistence.size=512M,persistence.storageClass=manual,persistence.mountPath=/mnt/data --set postgresqlPassword=yaa,postgresqlDatabase=yaa,postgresqlDataDir=/mnt/data > db_install.log'
 
   not_if { system('kubectl get pods | grep postgres | grep Running') }
