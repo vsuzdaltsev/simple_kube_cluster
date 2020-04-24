@@ -1,22 +1,19 @@
 # frozen_string_literal: true
 
 helm_install_postgres = node['master']['helm_install_postgres']
+where_deployment      = node['kubernetes']['deployments']['web-api']
 
-template '/home/ubuntu/web-api.yml' do
+template where_deployment do
   source 'web-api.yml.erb'
   owner  'ubuntu'
   group  'ubuntu'
   mode   '0755'
 
-  action :create
-
   variables(worker_one: node['network']['interfaces']['eth0']['arp'].keys.sort[1])
 end
 
 execute 'deployment' do
-  command 'kubectl apply -f /home/ubuntu/web-api.yml'
-
-  action :run
+  command "kubectl apply -f #{where_deployment}"
 end
 
 execute 'helm add repo' do
