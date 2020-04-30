@@ -8,7 +8,7 @@ resource "aws_vpc" "kube" {
 resource "aws_subnet" "public-subnet" {
   vpc_id            = aws_vpc.kube.id
   cidr_block        = var.public_subnet_cidr
-  availability_zone = "eu-central-1a"
+  availability_zone = join("", [data.aws_region.current.name, "a"])
 
   tags = merge(map("Name", "DMZ subnet"), var.default_tags)
 }

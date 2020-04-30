@@ -12,6 +12,13 @@ template where_deployment do
   variables(worker_one: node['network']['interfaces']['eth0']['arp'].keys.sort[1])
 end
 
+template '/home/ubuntu/fluentd.yml' do
+  source 'fluentd.yml.erb'
+  owner  'ubuntu'
+  group  'ubuntu'
+  mode   '0755'
+end
+
 execute 'deployment' do
   command "kubectl apply -f #{where_deployment}"
 end

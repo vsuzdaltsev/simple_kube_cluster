@@ -16,6 +16,23 @@ spec:
 
 ---
 
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: splunk-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: splunk
+          servicePort: 8000
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -63,7 +80,32 @@ spec:
         args: ["-c", "/opt/app/unicorn.conf"]
 
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: splunk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: backend
+      service: splunk
+  template:
+    metadata:
+      labels:
+        type: backend
+        service: splunk
+    spec:
+      containers:
+      - name: api
+        image: splunk/splunk:latest
+        env:
+        - name: SPLUNK_START_ARGS
+          value: '--accept-license'
+        - name: SPLUNK_PASSWORD
+          value: 'yaa12345678'
 
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -79,7 +121,21 @@ spec:
     service: web-api
 
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: splunk
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8000
+  externalIPs:
+  - <%= @worker_one %>
+  selector:
+    type: backend
+    service: splunk
 
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:

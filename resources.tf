@@ -92,7 +92,7 @@ EOF
 
 resource "aws_vpc_endpoint" "s3-yaa-test" {
   vpc_id       = aws_vpc.kube.id
-  service_name = "com.amazonaws.${var.aws_region}.s3"
+  service_name = "com.amazonaws.${data.aws_region.current.name}.s3"
 
   route_table_ids = [aws_route_table.public-rt.id]
 }
